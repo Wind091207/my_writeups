@@ -38,7 +38,7 @@ Lệnh `SAHF` (*Store AH Into Flags*) có mã opcode gồm 1 byte duy nhất là
 
 Ở bước trước, giá trị `0xAABBCCDD` đã được nạp vào `EAX` (`AX = 0xCCDD`), vì vậy thanh ghi `AH` mang giá trị `0xCC` (`BIN = 1100 1100`). Các bit của `AH` (`1100 1100`) được nạp thẳng vào thanh ghi `EFLAGS`. Do đó, đối chiếu với sơ đồ thanh ghi `EFLAGS` bên dưới, các cờ `PF` (Parity - bit 2), `ZF` (Zero - bit 6) và `SF` (Sign - bit 7) đều được bật lên `1`:
 
-![EFLAGS](./EFLAGS.jfif)
+![EFLAGS](./EFLAGS.png)
 
 *(Ví dụ: Bit 2 của `1100 1100` bằng `1` nên cờ Parity `PF` được bật; Bit 6 của `1100 1100` bằng `1` nên cờ Zero `ZF` được bật)*.
 
