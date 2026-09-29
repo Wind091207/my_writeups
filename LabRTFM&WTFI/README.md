@@ -25,8 +25,14 @@ Tra cứu bảng lệnh `MOV` trong Intel SDM, ta sử dụng cấu trúc `MOV r
 
 ![MOV](./MOV.jfif)
 
-* Ký hiệu `+rd` cộng thêm mã định danh của thanh ghi 32-bit đích (theo *Table 3-1*, thanh ghi `EAX` có mã bằng `0`), do đó byte opcode đầu tiên là `B8 + 0 = 0B8h`.
-* Ký hiệu `id` là giá trị tức thời 4-byte (`0xAABBCCDD`). Do kiến trúc x86-64 lưu trữ dữ liệu theo chuẩn **Little-Endian** (byte thấp đứng trước, byte cao đứng sau), `0xAABBCCDD` được viết thành `0DDh, 0CCh, 0BBh, 0AAh`.
+Tra cứu tiếp mục *Section 3.1.1.1 (Opcode Column in the Instruction Summary Table)* trong Intel SDM Vol. 2A để giải mã hai ký hiệu `+rd` và `id`:
+
+![rd](./rd.jfif)
+
+![id](./id.jfif)
+
+* **Ký hiệu `+rd`:** Cộng thêm mã định danh của thanh ghi 32-bit đích (theo *Table 3-1*, thanh ghi `EAX` có mã bằng `0`) vào byte opcode gốc, do đó byte opcode đầu tiên là `B8 + 0 = 0B8h`.
+* **Ký hiệu `id` (4-byte immediate operand):** Quy định toán hạng đi theo sau opcode phải là một hằng số tức thời có kích thước bắt buộc **4 bytes** (`0xAABBCCDD`). Do kiến trúc x86-64 lưu trữ dữ liệu theo chuẩn **Little-Endian** (byte thấp đứng trước, byte cao đứng sau), `0xAABBCCDD` được viết thành `0DDh, 0CCh, 0BBh, 0AAh`.
 
 👉 **Bytecode:** `db 0B8h, 0DDh, 0CCh, 0BBh, 0AAh`
 
@@ -55,7 +61,7 @@ Tra cứu bảng lệnh `Jcc`, lệnh nhảy ngắn `JZ rel8` (nhảy nếu cờ
 * Byte đầu tiên là `74h`. Byte thứ hai (`cb`) là khoảng cách nhảy tương đối 1-byte tính từ lệnh kế tiếp sau `jz` tới vị trí nhãn `mylabel:`.
 * Để tính được `cb`, trước hết ta phải xác định độ dài byte của câu lệnh nằm giữa là `and eax, 0x31337`:
   * Lệnh `AND EAX, imm32` có mã opcode là `25 id`.
-  * Biểu diễn `0x00031337` (đủ 4 bytes cho `id`) theo thứ tự Little-Endian là `37h, 13h, 03h, 00h`.
+  * Vì ký hiệu `id` yêu cầu đủ **4 bytes** như đã tra cứu ở mục 1, hằng số `0x31337` được biểu diễn đầy đủ 4 bytes là `0x00031337`, viết theo thứ tự Little-Endian thành `37h, 13h, 03h, 00h`.
   * Do đó, lệnh `and eax, 0x31337` được mã hóa thành `db 25h, 37h, 13h, 03h, 00h` và chiếm tổng cộng **5 bytes (`5h`)**.
 * Vì cần nhảy vượt qua 5 bytes của lệnh `and` để tới thẳng nhãn `mylabel:` (ngay trước lệnh `ret`), giá trị `cb` của lệnh `jz` là `5h`.
 
