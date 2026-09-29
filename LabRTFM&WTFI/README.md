@@ -23,7 +23,7 @@ Trong bộ tài liệu *Intel® 64 and IA-32 Architectures Software Developer’
 
 Tra cứu bảng lệnh `MOV` trong Intel SDM, ta sử dụng cấu trúc `MOV r32, imm32` có mã opcode là `B8+ rd id`:
 
-![MOV](./MOV.png)
+![MOV](./MOV.jfif)
 
 * Ký hiệu `+rd` cộng thêm mã định danh của thanh ghi 32-bit đích (theo *Table 3-1*, thanh ghi `EAX` có mã bằng `0`), do đó byte opcode đầu tiên là `B8 + 0 = 0B8h`.
 * Ký hiệu `id` là giá trị tức thời 4-byte (`0xAABBCCDD`). Do kiến trúc x86-64 lưu trữ dữ liệu theo chuẩn **Little-Endian** (byte thấp đứng trước, byte cao đứng sau), `0xAABBCCDD` được viết thành `0DDh, 0CCh, 0BBh, 0AAh`.
@@ -38,7 +38,7 @@ Lệnh `SAHF` (*Store AH Into Flags*) có mã opcode gồm 1 byte duy nhất là
 
 Ở bước trước, giá trị `0xAABBCCDD` đã được nạp vào `EAX` (`AX = 0xCCDD`), vì vậy thanh ghi `AH` mang giá trị `0xCC` (`BIN = 1100 1100`). Các bit của `AH` (`1100 1100`) được nạp thẳng vào thanh ghi `EFLAGS`. Do đó, đối chiếu với sơ đồ thanh ghi `EFLAGS` bên dưới, các cờ `PF` (Parity - bit 2), `ZF` (Zero - bit 6) và `SF` (Sign - bit 7) đều được bật lên `1`:
 
-![EFLAGS](./EFLAGS.png)
+![EFLAGS](./EFLAGS.jfif)
 
 *(Ví dụ: Bit 2 của `1100 1100` bằng `1` nên cờ Parity `PF` được bật; Bit 6 của `1100 1100` bằng `1` nên cờ Zero `ZF` được bật)*.
 
@@ -50,7 +50,7 @@ Lệnh `SAHF` (*Store AH Into Flags*) có mã opcode gồm 1 byte duy nhất là
 
 Tra cứu bảng lệnh `Jcc`, lệnh nhảy ngắn `JZ rel8` (nhảy nếu cờ `ZF = 1`) có mã opcode là `74 cb`:
 
-![JZ](./JZ.png)
+![JZ](./JZ.jfif)
 
 * Byte đầu tiên là `74h`. Byte thứ hai (`cb`) là khoảng cách nhảy tương đối 1-byte tính từ lệnh kế tiếp sau `jz` tới vị trí nhãn `mylabel:`.
 * Để tính được `cb`, trước hết ta phải xác định độ dài byte của câu lệnh nằm giữa là `and eax, 0x31337`:
@@ -93,7 +93,7 @@ end
 
 Khi biên dịch và kiểm tra trên cửa sổ **Disassembly** của Visual Studio, các byte thô đã được dịch ngược chính xác thành chuỗi lệnh mục tiêu. Đồng thời, do cờ `ZF = 1` (được thiết lập bởi lệnh `sahf`), lệnh `je` (`jz`) thực hiện nhảy qua lệnh `and eax, 31337h` tới thẳng lệnh `ret`, giữ nguyên giá trị `0xAABBCCDD` trong thanh ghi `EAX`:
 
-![Disassembly](./Disassembly.png)
+![Disassembly](./Disassembly.jfif)
 
 ---
 
