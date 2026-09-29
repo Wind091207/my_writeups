@@ -1,7 +1,7 @@
 # OpenSecurityTraining2 Arch1001: Lab RTFM && WTFI!
 
 ## 1. Giới thiệu & Yêu cầu đề bài (Challenge Description)
-Trong bài Lab **"RTFM && WTFI!" (Read The Fun Manual and Write The Fun Instructions!)** thuộc khóa học *OST2 Arch1001: x86-64 Assembly* của giảng viên **Xeno Kovah**, học viên được yêu cầu thực hiện thử thách sau:
+Trong bài Lab **"RTFM && WTFI!" (Read The Fun Manual and Write The Fun Instructions!)** thuộc khóa học *OST2 Arch1001: x86-64 Assembly* của **Xeno Kovah**, ta được yêu cầu thực hiện thử thách sau:
 
 * **Yêu cầu:** Không được viết code Assembly bằng các từ gợi nhớ (Mnemonics) dễ đọc cho con người như thông thường. Thay vào đó, hãy tự tra cứu tài liệu chính thức của Intel (**Intel® 64 and IA-32 Architectures Software Developer's Manual - SDM**) để tìm mã máy (Opcode) và sử dụng chỉ thị **`db` (Define Byte)** trong MASM nhằm phát sinh ra chuỗi byte thô tương ứng với đoạn code Assembly dưới đây:
 
