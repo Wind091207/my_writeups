@@ -16,7 +16,7 @@ Nếu số lượng số đọc được không thỏa mãn điều kiện (nh�
 Từ tổ hợp lệnh này, ta chốt được quy tắc đầu tiên: **Phase 2 bắt buộc người dùng phải nhập vào đúng 6 số nguyên.**
 
 ## 2. Điều kiện khởi đầu
-Dựa vào bản dịch mã giả (pseudocode) xuất sắc ở bước phân tích logic tĩnh, chúng ta thấy 6 con số này được lưu trữ trong một mảng bắt đầu từ địa chỉ `[rbp + 28h]`. 
+Dựa vào bản dịch mã giả (pseudocode) ở bước phân tích logic tĩnh, chúng ta thấy 6 con số này được lưu trữ trong một mảng bắt đầu từ địa chỉ `[rbp + 28h]`. 
 
 Chương trình khởi tạo `rax *= 0` và thực hiện bài test sinh tử đầu tiên:
 ```c
