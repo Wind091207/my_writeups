@@ -9,7 +9,7 @@ Trọng tâm bắt đầu ngay bên dưới đoạn check debugger, nơi xuất 
 lea rdx, [bomb!'string' (address)]
 ```
 
-![Phase 1 Disassembly](./images/phase1_asm.jfif)
+![Phase 1 Disassembly](./phase1_asm.jfif)
 
 Từ khóa `string` chỉ điểm rất rõ ràng rằng địa chỉ này đang chứa một chuỗi văn bản. Dùng lệnh `da <address>` (Dump ASCII) trong WinDbg để soi bộ nhớ, ta thu được chuỗi mục tiêu: `"I am just a renegade hockey mom."`.
 
