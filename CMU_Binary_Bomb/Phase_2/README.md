@@ -48,5 +48,6 @@ Kết hợp với dữ kiện số đầu tiên là `1`, chúng ta có một c�
 - Số thứ 5: $8 \times 2 = 16$
 - Số thứ 6: $16 \times 2 = 32$
 
-👉 **Answer (Phase 2):** `1 2 4 8 16 32` 
+👉 **Answer (Phase 2):** `1 2 4 8 16 32`
+
 👉 **Lưu ý các địa chỉ tôi ghi ở bài này có thể khác nhau vì mỗi máy address mỗi khác!!!**
