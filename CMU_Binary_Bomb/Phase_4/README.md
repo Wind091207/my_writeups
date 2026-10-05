@@ -10,20 +10,21 @@ Thú vị hơn, nếu hàm trả về đúng 10, chương trình lại lôi Inpu
 => **Chốt hạ:** Input 2 chắc chắn là **10**, và mục tiêu của ta là tìm Input 1 sao cho hàm đệ quy trả về kết quả là **10**.
 
 ## 3. Giải mã Hàm Đệ quy (Binary Search)
-Khi bắt đầu chui vào hàm đệ quy `func4`, chương trình thiết lập 3 tham số khởi đầu:
-* `rcx` = Input 1 của chúng ta.
-* `edx` = 0 (gọi là biến `low`).
-* `r8d` = 14 (gọi là biến `high`).
+Thay vì đọc Assembly thô, ta có thể dịch ngược (decompile) luồng chạy của hàm đệ quy `func4` ra mã giả (pseudocode) cho dễ nhìn như 2 ảnh dưới đây:
 
-![Khởi tạo tham số đệ quy](./image_0666f9.png)
+![Phase 4 Pseudocode Part 1](./phase4_pic2.png)
+![Phase 4 Pseudocode Part 2](./phase4_pic3.png)
+
+Khi bắt đầu chui vào hàm đệ quy `func4`, chương trình thiết lập 3 tham số khởi đầu:
+* `rcx` = Input 1 của chúng ta (gán vào `[rsp+8]`).
+* `edx` = 0 (biến `low`, gán vào `[rsp+10]`).
+* `r8d` = 14 (biến `high`, gán vào `[rsp+18]`).
 
 Tiếp theo là đoạn tính toán nhìn rất rối rắm với lệnh `cdq`. Đừng để nó hù dọa! Lệnh `cdq` (Convert Doubleword to Quadword) kết hợp với trừ (`eax -= edx`) và chia 2 (`eax /= 2`) chỉ là cách máy tính xử lý phép chia cho số âm để không bị sai số. 
-Nếu gom toàn bộ cục tính toán này dịch ra mã C, nó chỉ đơn giản là công thức tìm điểm ở giữa (midpoint):
+Nếu gom toàn bộ cục tính toán này dịch ra công thức toán học, nó chỉ đơn giản là tìm điểm ở giữa (midpoint):
 **`mid = low + (high - low) / 2`**
 
 Kết quả của phép tính này (biến `mid`) được lưu vào `[rbp + 4]`. 
-
-![Toán học tìm Midpoint](./image_074b1d.png)
 
 Sau khi có `mid`, chương trình đem nó so sánh với Input 1. Thuật toán này chính là **Tìm kiếm nhị phân (Binary Search)**. Điểm đặc biệt của `func4` trong bài này là: mỗi khi nó gọi đệ quy, giá trị trả về sẽ được **cộng dồn thêm với `mid`** (nhờ lệnh `eax += [rbp + 4]`).
 
@@ -34,7 +35,7 @@ Ta sẽ mô phỏng lại cách nó chạy:
 *   **Lần chạy 1:** 
     * `low = 0`, `high = 14`.
     * Tính `mid = 0 + (14 - 0) / 2 = 7`.
-    * Ta đang có tổng là 7. Để đạt mục tiêu 10, ta cần thiếu 3 nữa. Do đó, ta phải ép chương trình gọi đệ quy tiếp để tìm ra số 3. Vì 3 < 7, Input 1 bắt buộc phải nhỏ hơn `mid` để chương trình rẽ vào nhánh `high = mid - 1`.
+    * Ta đang có tổng là 7. Để đạt mục tiêu 10, ta cần thiếu 3 nữa. Do đó, ta phải ép chương trình gọi đệ quy tiếp để tìm ra số 3. Vì 3 < 7, Input 1 bắt buộc phải nhỏ hơn `mid` để chương trình rẽ vào nhánh `high = mid - 1` (gọi đệ quy lần 2).
 
 *   **Lần chạy 2:**
     * Nhánh mới có `low = 0`, `high = 7 - 1 = 6`.
