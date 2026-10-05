@@ -20,7 +20,7 @@ Khi bắt đầu chui vào hàm đệ quy `func4`, chương trình thiết lập
 * `edx` = 0 (biến `low`, gán vào `[rsp+10]`).
 * `r8d` = 14 (biến `high`, gán vào `[rsp+18]`).
 
-Tiếp theo là đoạn tính toán nhìn rất rối với lệnh `cdq`. CHILL! Lệnh `cdq` (Convert Doubleword to Quadword) - ở đây cdq sẽ dùng thanh ghi edx:eax, lệnh cdq sẽ kiểm tra giá trị eax bit trái cùng dương hay âm, nếu dương thì edx lấp đầy bằng 0, còn nếu âm thì edx được lấp đầy bởi F. Lấy cdq kết hợp với trừ (`eax -= edx`) và chia 2 (`eax /= 2`) chỉ là cách máy tính xử lý phép chia cho số âm để không bị sai số (bạn có thể chạy tay sẽ thấy cdq cứu phép toán này như thế nào :>).
+Tiếp theo là đoạn tính toán nhìn rất rối với lệnh `cdq`. CHILL! Lệnh `cdq` (Convert Doubleword to Quadword) - cdq sẽ dùng thanh ghi edx:eax, lệnh cdq sẽ kiểm tra giá trị eax bit trái cùng dương hay âm, nếu dương thì edx lấp đầy bằng 0, còn nếu âm thì edx được lấp đầy bởi F. Lấy cdq kết hợp với trừ (`eax -= edx`) và chia 2 (`eax /= 2`) chỉ là cách máy tính xử lý phép chia cho số âm để không bị sai số (bạn có thể chạy tay sẽ thấy cdq cứu phép toán này như thế nào :>).
 Nếu gom toàn bộ cục tính toán này dịch ra công thức toán học, nó chỉ đơn giản là tìm điểm ở giữa (midpoint):
 **`mid = low + (high - low) / 2`**
 
