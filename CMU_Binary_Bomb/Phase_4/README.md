@@ -9,6 +9,8 @@ Sau khi gọi hàm đệ quy `func4`, chương trình lấy giá trị trả v�
 Thú vị hơn, nếu hàm trả về đúng 10, chương trình lại lôi Input 2 (lưu tại `[rbp + 24]`) ra so sánh tiếp với chính số 10 này. 
 => **Chốt hạ:** Input 2 chắc chắn là **10**, và mục tiêu của ta là tìm Input 1 sao cho hàm đệ quy trả về kết quả là **10**.
 
+![Phase 4 Main Function](./phase4_pic1.png)
+
 ## 3. Giải mã Hàm Đệ quy (Binary Search)
 Thay vì đọc Assembly thô, ta có thể dịch ngược (decompile) luồng chạy của hàm đệ quy `func4` ra mã giả (pseudocode) cho dễ nhìn như 2 ảnh dưới đây:
 
