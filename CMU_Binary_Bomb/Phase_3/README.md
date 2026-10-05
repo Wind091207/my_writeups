@@ -1,42 +1,37 @@
 # Phase 3: Switch Statements (Jump Table)
 
-## 1. Đọc dữ liệu đầu vào (Input Parsing)
-Khởi đầu Phase 3, chúng ta bỏ qua các lệnh rác và tiến thẳng đến cụm nạp tham số. Bằng cách soi giá trị tại địa chỉ chuỗi (`00007ff7'675dc220`), ta nhận diện được Format String là `"%d %d"`. 
+## 1. Đọc dữ liệu đầu vào
+Đầu tiên, ta bỏ qua các lệnh khởi tạo và tìm đến đoạn đọc dữ liệu. Bằng cách kiểm tra địa chỉ chuỗi (`00007ff7'675dc220`), ta thấy định dạng đầu vào là `"%d %d"`. 
 
-Chương trình gọi hàm `sscanf` thông qua lệnh `call bomb!ILT+705(sscanf)`. Ngay sau đó, kết quả trả về của hàm này được kiểm tra bằng điều kiện `if([rbp + 64] >= 2)`. 
-Nếu số lượng biến đọc được nhỏ hơn 2, chương trình sẽ rẽ nhánh vào BOMB. Do đó, Phase này yêu cầu nhập chính xác **2 số nguyên**.
+Chương trình gọi hàm `sscanf` để đọc số. Sau đó, nó kiểm tra kết quả bằng lệnh `if([rbp + 64] >= 2)`. Nếu bạn nhập ít hơn 2 số, bom sẽ nổ. Vậy ta cần nhập chính xác **2 số nguyên**.
 
-![Phase 3 Pseudocode](./phase3_pic1.jfif)
+## 2. Kiểm tra số thứ nhất (Input 1)
+Số đầu tiên bạn nhập được lưu ở `[rbp + 4]`. Chương trình kiểm tra số này qua 2 bước:
 
-## 2. Kiểm duyệt số thứ nhất (First Input Validation)
-Con số đầu tiên người dùng nhập vào được lưu tại `[rbp + 4]`. Tác giả đã giăng ra hai chốt chặn để giới hạn Input này:
+*   **Bước 1 (Kiểm tra giới hạn của mảng):** Lệnh `if([rbp + 134] > 7)` nhìn thì giống kiểm tra lớn hơn 7, nhưng trong Assembly nó dùng lệnh so sánh không dấu (unsigned comparison). Nếu bạn nhập số âm (ví dụ -1), máy tính sẽ hiểu đó là 4.2 tỷ và nổ bom ngay lập tức. Lệnh này dùng để đảm bảo số nhập vào nằm trong khoảng từ 0 đến 7, giúp chương trình không bị lỗi khi truy cập mảng (Jump Table).
 
-*   **Chốt thứ nhất (So sánh không dấu với 7):** Ở đầu đoạn mã có lệnh `if([rbp + 134] > 7) { jump (BOMB) }`. Mặc dù thoạt nhìn có vẻ nó chỉ chặn các số lớn hơn 7, nhưng trong Assembly, lệnh kiểm tra này thường dùng `ja` (Jump if Above - so sánh không dấu). Nếu người dùng nhập số âm (ví dụ: `-1`), theo quy tắc bù 2 của máy tính, `-1` sẽ được hiểu là `0xFFFFFFFF` (khoảng 4.2 tỷ). Do 4.2 tỷ > 7, hệ thống lập tức đá văng số âm vào thẳng hàm nổ bom. Đây là kỹ thuật tối ưu hóa kinh điển của trình biên dịch: dùng một lệnh duy nhất để chặn cả bounds trên (số lớn) lẫn bounds dưới (số âm).
-*   **Chốt thứ hai (So sánh có dấu với 5):** Nằm ở cuối mớ bòng bong code `if([rbp + 4] > 5) { jump (BOMB) }`. Dù lệnh nhảy ở đây cho phép số âm đi qua, nhưng toàn bộ số âm đã bị "tiêu diệt" từ chốt 1 nên lớp bảo vệ này chỉ dùng để gọt bớt biên độ giới hạn xuống mức 5.
+![Phase 3 Part 1](./phase3_pic2.jfif)
 
-=> **Kết luận:** Điều kiện sinh tử là Input 1 phải là số nguyên dương hợp lệ nằm trong đoạn **[0, 5]**. (Số `0` hoàn toàn hợp lệ vì vượt qua cả 2 bài test).
+*   **Bước 2 (Kiểm tra logic chính):** Nằm ở tít bên dưới, sau khi chạy xong hết các phép tính, chương trình chốt lại bằng lệnh `if([rbp + 4] > 5)`. Điều này có nghĩa là nếu ở bước 1 bạn nhập số 6 hoặc 7, chương trình vẫn cho qua, nhưng đến đoạn cuối này bom mới nổ. 
 
-## 3. Lệnh nhảy gián tiếp (The Jump Table)
-Trung tâm của thuật toán nằm ở đoạn mã:
-```c
-rax = [rbp + 134];
-rcx = 00007ff7`675c0000;
-eax = [rcx + rax*4 + 122CC];
-rax += rcx;
-jmp rax;
-```
-Chương trình sử dụng số thứ nhất để tính toán ra một địa chỉ bộ nhớ, sau đó thực hiện lệnh nhảy gián tiếp `jmp rax` đến địa chỉ đó. Đây chính là cách Assembly biên dịch cấu trúc `switch-case`. Tùy thuộc vào việc Input 1 bằng `0, 1, 2, 3, 4, 5` mà chương trình sẽ nhảy đến các "case" tương ứng. 
+=> **Kết luận:** Số thứ nhất bắt buộc phải nằm trong khoảng **[0, 5]**.
 
-Mỗi "case" chứa một loạt các phép tính cộng/trừ liên hoàn (ví dụ: `eax -= 7E;`, `eax += 7E;`) làm biến đổi giá trị của biến `[rbp + 44]`.
+## 3. Cấu trúc Switch-Case (Jump Table)
+Đoạn code tính toán địa chỉ rồi gọi `jmp rax` chính là cấu trúc `switch-case` trong Assembly. Tùy vào giá trị của số thứ nhất (từ 0 đến 5), chương trình sẽ nhảy đến các case tương ứng.
 
-## 4. Khớp số thứ hai (Matching Second Input)
-Thay vì ngồi tính tay đống phép toán rườm rà, chúng ta dùng phương pháp **Phân tích động (Dynamic Analysis)**: Đặt breakpoint ở cuối đoạn switch-case và đọc kết quả cuối cùng.
+Điểm đặc biệt ở bài này là các case được viết liền nhau và không có lệnh `break` (hiệu ứng Fall-through). Ví dụ, nếu bạn nhập số 0, nó nhảy vào dòng `switch 0` và chạy tuột từ trên xuống dưới, thực hiện tất cả các phép cộng trừ của mọi case. Nếu nhập số lớn hơn, nó sẽ nhảy vào đoạn giữa và chạy ít phép tính hơn.
 
-Giả sử nhập Input 1 = `3`. Sau khi lệnh `jmp rax` chạy xong hàng loạt phép toán, giá trị của `[rbp + 44]` trở thành `0xffffff82` (hệ Hex).
-Dùng quy tắc số bù 2 (Two's complement) để dịch ngược `0xffffff82` sang số thập phân có dấu, ta được kết quả là `-126`.
+![Phase 3 Part 2](./phase3_pic3.jfif)
 
-Cuối cùng, chương trình nạp số thứ hai vào `eax = [rbp + 24]` và kiểm tra điều kiện chốt hạ `if([rbp + 44] == eax)`. Nếu Input 2 bằng đúng kết quả đã tính toán, bom sẽ được vô hiệu hóa (`jump PASSSSSS`).
+## 4. Tìm số thứ hai (Input 2)
+Thay vì tự nhẩm các phép cộng trừ dài dòng, cách nhanh nhất là chạy Debug (Dynamic Analysis). 
+Bạn đặt breakpoint ở ngay trước dòng kiểm tra cuối cùng `if([rbp + 44] == eax)`.
 
-👉 **Answer (Phase 3):** Có nhiều đáp án đúng tùy thuộc vào Input 1 (từ 0 đến 5). Ví dụ:
+Ví dụ: Chọn số thứ nhất là `3`. Cho chương trình chạy qua đoạn switch-case, sau đó kiểm tra giá trị của `[rbp + 44]`. Lúc này nó sẽ bằng `0xffffff82` (hệ Hex).
+Đổi `0xffffff82` ra số thập phân có dấu (dùng quy tắc bù 2), ta được `-126`.
+
+Cuối cùng, chương trình lấy số thứ hai của mình (đang lưu ở `eax = [rbp + 24]`) ra so sánh xem có bằng `[rbp + 44]` không. Nếu bằng nhau, bạn sẽ qua màn.
+
+👉 **Answer (Phase 3):** Có nhiều đáp án đúng tùy thuộc vào số thứ nhất (chọn từ 0 đến 5). Ví dụ:
 * `1 -26`
 * `3 -126`
