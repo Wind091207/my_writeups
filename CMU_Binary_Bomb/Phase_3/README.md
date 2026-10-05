@@ -6,7 +6,7 @@ Khởi đầu Phase 3, chúng ta bỏ qua các lệnh rác và tiến thẳng đ
 Chương trình gọi hàm `sscanf` thông qua lệnh `call bomb!ILT+705(sscanf)`. Ngay sau đó, kết quả trả về của hàm này được kiểm tra bằng điều kiện `if([rbp + 64] >= 2)`. 
 Nếu số lượng biến đọc được nhỏ hơn 2, chương trình sẽ rẽ nhánh vào BOMB. Do đó, Phase này yêu cầu nhập chính xác **2 số nguyên**.
 
-![Phase 3 Pseudocode](./image_6d4c9b.png)
+![Phase 3 Pseudocode](./phase3_pic1.jfif)
 
 ## 2. Kiểm duyệt số thứ nhất (First Input Validation)
 Con số đầu tiên người dùng nhập vào được lưu tại `[rbp + 4]`. Tác giả đã giăng ra hai chốt chặn để giới hạn Input này:
