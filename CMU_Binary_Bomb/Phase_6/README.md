@@ -4,6 +4,7 @@
 Mở đầu Phase 6, chương trình nạp 6 số nguyên vào một mảng. Ngay sau đó, nó đưa mảng này qua một thuật toán kiểm tra trùng lặp với 2 vòng lặp `for` lồng nhau (được biểu diễn qua các khối nhảy điều kiện của Assembly).
 
 ![Uniqueness Check](./phase6_pic1.png)
+![Uniqueness Check](./phase6_pic12.png)
 
 *   **Lớp thứ nhất:** Đảm bảo từng số nhập vào phải thỏa mãn điều kiện `1 <= input[i] <= 6`.
 *   **Lớp thứ hai:** Lấy số đang xét so sánh với các số còn lại. Nếu phát hiện 2 số bằng nhau $\rightarrow$ BOMB.
