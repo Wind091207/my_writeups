@@ -41,8 +41,8 @@ Luồng thực thi ở nửa cuối Phase 6 hoạt động theo 3 bước:
 
 1.  **Duyệt và gom Node:** Vòng lặp sử dụng chính các con số ta nhập vào làm `id` để tìm Node. Bằng thao tác duyệt `node = node->next` (Khối 3), chương trình lặp để bắt đúng Node và lưu "chuyển nhà" vào một mảng tạm.
 
-![Linked List Traversal](./phase6_pic5.png)
-![Re-linking Logic](./phase6_pic4.png)
+![Linked List Traversal](./phase6_pic4.png)
+![Re-linking Logic](./phase6_pic5.png)
 
 2.  **Tái cấu trúc (Re-linking):** Nó xâu chuỗi 6 Node trong mảng tạm lại với nhau thành một Linked List hoàn toàn mới.
 3.  **Điều kiện phá bom:** Vòng lặp cuối cùng sẽ duyệt cái Linked List mới này và thực hiện lệnh kiểm tra: `if (node->val < node->next->val) explode_bomb()` (được dịch từ lệnh `cmp [rcx], eax` và `jge`).
