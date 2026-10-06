@@ -60,3 +60,7 @@ Từ dữ liệu xuất bộ nhớ ở Mục 2, ta sắp xếp 6 Giá trị theo
 **5 -> 4 -> 3 -> 1 -> 6 -> 2**
 
 👉 **Đáp án (Phase 6):** `5 4 3 1 6 2`
+
+## 🕵️‍♂️ Phụ lục:
+Dịch ngược các vòng lặp lồng nhau từ Assembly ra mã C, bạn có thể xem các bản phân tích nháp (raw notes) của tôi tại đây:
+*   [📝 Phân tích mã giả và vòng lặp Phase 6](./phase6.txt)
