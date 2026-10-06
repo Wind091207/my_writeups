@@ -4,7 +4,7 @@
 Binary Bomb Lab là một bài thực hành kinh điển từ giáo trình CS:APP của Đại học Carnegie Mellon (CMU). Quả bom là một file thực thi `bomb.exe` gồm 6 giai đoạn (Phases). Sinh viên phải sử dụng trình gỡ lỗi (WinDbg) để đọc hiểu mã máy x86-64, từ đó tìm ra chuỗi mật khẩu chính xác để vô hiệu hóa từng Phase.
 
 ## Easier solution method
-Bài này tôi giải sẽ dịch sang hết assembly sang mã giả dễ hơn và ghi vào notepad, tại tôi rảnh nên dùng cách này các bạn có thể sử dụng những phần mềm Decompiler và có Graph View cho dễ nhìn như Cutter, IDA free, Ghidra,.....
+Bài này tôi giải sẽ dịch hết assembly sang mã giả để dễ nhìn hơn và ghi vào notepad, tại tôi rảnh nên dùng cách này các bạn có thể sử dụng những phần mềm Decompiler và có Graph View cho dễ nhìn như Cutter, IDA free, Ghidra,... và đi làm thực tế không ai rảnh viết ra notepad như tôi cả vì tới tận hàng ngàn dòng code :<
 
 ## Table of Contents (Writeups)
 * [Phase 1: String Comparison](./Phase_1/README.md)
