@@ -1,0 +1,172 @@
+[rbp + 0C4h] = 0 (khởi tạo ban đầu); eax = 6 (số lượng input)
+
+rbp + 0*4 + 48 = 4 (INPUT1)
+rbp + 1*4 + 48 = 5 (INPUT2)
+rbp + 2*4 + 48 = 6 (INPUT3)
+rbp + 3*4 + 48 = 7 (INPUT4)
+rbp + 4*4 + 48 = 8 (INPUT5)
+rbp + 5*4 + 48 = 9 (INPUT6)
+rax = [bomb!node1 (00007ff7`675df050)];
+[rbp + 8] = rax;
+rdx = [rbp + 48];
+rcx = [rbp+1E0h];
+call read_six_numbers
+[rbp+0C4h] = 0;
+jmp 7ff7`675d262c:
+    if([rbp + 0C4h] >= 6){ 
+         jmp 7ff7`675d269e:
+             [rbp+0C4h] = 0;
+             jmp 00007ff7`675d26b8 (8)
+    }
+    else{
+         rax = [rbp + 0C4h]    (2)
+         if([rbp + rax*4 + 48h] < 1){
+              jmp 7ff7`675d2651 (BOMB)
+         }
+         else{
+              rax = [rbp + 0C4h];
+              if([rbp + rax*4 + 48] <= 6){
+                   jmp 7ff7`675d2656:
+                        eax = [rbp + 0C4h];
+                        ++eax;
+                        [rbp + 0E4h] = eax;
+                        jmp 00007ff7`675d2674:
+                               
+                            if([rbp + 0E4h] >= 6){             ->  7ff7`675d267b (1)
+                                jmp 7ff7`675d269c:
+                                    jmp 00007ff7`675d261e:
+                                         eax = [rbp + 0C4h];
+                                         eax++;
+                                         [rbp + 0C4h] = eax;
+                                         if([rbp + 0C4h] >= 6){
+                                               jmp 00007ff7`675d269e:
+                                                    [rbp + 0C4h] = 0;
+                                                     jmp 00007ff7`675d26b8: (8)
+                                                           if([rbp + 0C4h] >= 6){
+                                                                jmp 00007ff7`675d2716: (4)
+                                                                     eax = 8
+                                                                     eax = 0;
+                                                                     rax = rbp + rax + 78;
+                                                                     [rbp + 8] = rax;
+                                                                     rax = [rbp + 8];
+                                                                     [rbp + 28] = rax;
+                                                                     [rbp + 0C4h] = 1;
+                                                                     jmp 00007ff7`675d274a:
+                                                                           if([rbp + 0C4h] >= 6){ (8)
+                                                                                 jmp 00007ff7`675d2775:
+                                                                                       rax = [rbp + 28];
+                                                                                       [rbp + 8] = 0;
+                                                                                       rax = [rbp + 8];
+                                                                                       [rbp + 28h] = rax;
+                                                                                       [rbp + 0C4h] = 0;
+                                                                                       jmp 00007ff7`675d27a3:
+                                                                                             if([rbp + 0C4h] >= 5){
+                                                                                                   jmp 00007ff7`675d27d1 (PASSSSSSSS)
+                                                                                             }
+                                                                                             else{
+                                                                                                  rax = [rbp + 28]; (7)
+                                                                                                  rax = [rax + 8];
+                                                                                                  rcx = [rbp + 28];
+                                                                                                  eax = [rax];
+                                                                                                  if([rcx] >= eax){
+                                                                                                       jmp 00007ff7`675d27c3:
+                                                                                                             rax = [rbp + 28]; (3)
+                                                                                                             rax = [rax + 8];
+                                                                                                             [rbp + 28] = rax;
+                                                                                                             jmp 00007ff7`675d2795:
+                                                                                                                   eax = [rbp + 0C4h];
+                                                                                                                   eax++;
+                                                                                                                   [rbp + 0C4h] = eax;
+                                                                                                                   if([rbp + 0C4h] >= 5){
+                                                                                                                         jmp 00007ff7`675d27d1 (PASSSSSSSS)
+                                                                                                                   }
+                                                                                                                   else{
+                                                                                                                        (7)
+                                                                                                                   }
+                                                                                                  }
+                                                                                                  else{
+                                                                                                        (BOMB)
+                                                                                                  }
+                                                                                             }
+                                                                           }
+                                                                           else{
+                                                                                rax = [rbp+0C4h];
+                                                                                rcx =[rbp+28h];
+                                                                                rax = [rbp+rax*8+78h]
+                                                                                [rcx + 8] = rax;
+                                                                                rax = [rbp + 28];
+                                                                                rax = [rax + 8];
+                                                                                [rbp + 28] = rax;
+                                                                                jmp 00007ff7`675d273c:
+                                                                                      eax = [rbp + 0C4h];
+                                                                                      ++eax;
+                                                                                      [rbp + 0C4h] = eax;
+                                                                                      (8)
+                                                                           }
+                                                           }
+                                                           else{
+                                                                 rax = [rbp + 8]; (5)
+                                                                 [rbp + 28] = rax;
+                                                                 [rbp + 0E4h] = 1;
+                                                                 jmp 00007ff7`675d26e3:
+                                                                      rax = [rbp + 0C4h];
+                                                                      eax = [rbp + rax*4 + 48h];
+                                                                      if([rbp + 0E4h] >= eax){
+                                                                           jmp 00007ff7`675d2704: (6)
+                                                                                rax = [rbp + 0C4h];
+                                                                                rcx = [rbp + 28h];
+                                                                                [rbp + rax*8 + 78h] = rcx;
+                                                                                jmp 00007ff7`675d26aa:
+                                                                                      eax = [rbp + 0C4h];
+                                                                                      eax++;
+                                                                                      [rbp + 0C4h] = eax;
+                                                                                      if([rbp + 0C4h] >= 6){
+                                                                                            (4)
+                                                                                      }
+                                                                                      else{
+                                                                                           (5)
+                                                                                      }
+                                                                      }
+                                                                      else{
+                                                                           rax = [rbp + 28]; (3)
+                                                                           rax = [rax + 8];
+                                                                           [rbp + 28] = rax;
+                                                                           jmp 00007ff7`675d26d5:
+                                                                                eax = [rbp + 0E4h];
+                                                                                ++eax;
+                                                                                [rbp + 0E4h] = eax;
+                                                                                rax = [rbp + 0C4h];
+                                                                                eax = [rbp + rax*4 + 48];
+                                                                                if([rbp + 0E4h] >= eax){
+                                                                                     (6)
+                                                                                }
+                                                                                else{
+                                                                                      (3)
+                                                                                }
+
+                                                                      }
+                                                           }
+                                         }
+                                         else{
+                                               (2)
+                                         }
+                            }
+                            else{
+                               rax = [rbp + 0C4h];
+                               rcx = [rbp + 0E4h];
+                               ecx = [rbp + rcx*4 + 48];
+                               if([rbp + rax*4 + 48] != ecx){
+                                   jmp 7ff7`675d269a:
+                                        jmp 00007ff7`675d2666:
+                                             eax = [rbp + 0E4h];
+                                             eax++;
+                                             [rbp + 0E4h] = eax;
+                                             (1)
+                               }
+                               else (BOMB);
+                            }
+              }
+              else (BOMB)
+         }
+    }
+    
