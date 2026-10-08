@@ -1,6 +1,6 @@
 # Secret Phase
 
-## 1. Search for the call to `secret_phase`
+## A. Search for the call to `secret_phase`
 
 ![Picture 1](./images/secret_phase_pic1.jfif)
 
@@ -16,7 +16,7 @@ The problem is that **we have never been able to trigger `secret_phase`.**
 
 ---
 
-## 2. Analyzing the conditions inside `phase_defused`
+## A.1. Analyzing the conditions inside `phase_defused`
 
 ![Picture 2](./images/secret_phase_pic2.jfif)
 
@@ -39,7 +39,7 @@ After checking `rcx` again, we discover that it has moved to the address contain
 
 ---
 
-## 3. Discovering the special format of phase 4
+## A.2. Discovering the special format of phase 4
 
 ![Picture 6](./images/secret_phase_pic6.jfif)
 
@@ -61,7 +61,7 @@ However, the format `%d %d %s` requires:
 
 ---
 
-## 4. Analyzing `sscanf`
+## A.3. Analyzing `sscanf`
 
 ![Picture 3](./images/secret_phase_pic3.jfif)
 
@@ -79,7 +79,7 @@ When we inspect the value pointed to by `rcx`, we can see that it contains the *
 
 ---
 
-## 5. The condition for triggering `secret_phase`
+## A.4. The condition for triggering `secret_phase`
 
 ![Picture 4](./images/secret_phase_pic4.jfif)
 
