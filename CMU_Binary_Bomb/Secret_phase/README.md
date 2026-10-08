@@ -8,9 +8,7 @@ Normally, after solving a phase, the program will call the `phase_defused` funct
 At first, we might think that `phase_defused` is simply called to display a message telling us that the phase has been successfully defused.
 However, if we go inside `phase_defused` and scroll further down, we discover something interesting:
 
-```asm
-call bomb!ILT+475(secret_phase)
-```
+`call bomb!ILT+475(secret_phase)`
 
 This is where `secret_phase` is called.
 The problem is that **we have never been able to trigger `secret_phase`.**
@@ -27,24 +25,14 @@ If we have not completed all 6 phases yet, the program jumps out of `phase_defus
 
 ![Picture 5](./images/secret_phase_pic5.jfif)
 
-Then, at the address:
+Then, at the address `00007ff7`675d2cd1`, we encounter the instruction:
 
-```text
-00007ff7`675d2cd1
-```
-
-we encounter the instruction:
-
-```asm
-lea rcx, [bomb!input_strings]
-```
+`lea rcx, [bomb!input_strings]`
 
 When we inspect the address pointed to by `rcx`, we can see that it contains the **answer string we entered for phase 1**.
 Next, the program performs an addition:
 
-```text
-rcx += rax
-```
+`rcx += rax`
 
 After checking `rcx` again, we discover that it has moved to the address containing the **answer string for phase 4**.
 → This shows that the program is using the input from **phase 4** for a special check.
@@ -55,31 +43,19 @@ After checking `rcx` again, we discover that it has moved to the address contain
 
 ![Picture 6](./images/secret_phase_pic6.jfif)
 
-At the address:
+At the address `00007ff7`675d2cf2`, we encounter:
 
-```text
-00007ff7`675d2cf2
-```
-
-we encounter:
-
-```asm
-lea rdx, [bomb!string]
-```
+`lea rdx, [bomb!string]`
 
 Inspecting the string at this address, we discover the following format:
 
-```text
-"%d %d %s"
-```
+`"%d %d %s"`
 
 This is particularly interesting.
 Normally, in phase 4, we only enter **two numbers**.
 However, the format `%d %d %s` requires:
 
-```text
-integer + integer + string
-```
+`integer + integer + string`
 
 → **This shows that the phase 4 input can contain an additional string after the two numbers.**
 
@@ -89,35 +65,14 @@ integer + integer + string
 
 ![Picture 3](./images/secret_phase_pic3.jfif)
 
-Next, the program calls:
+Next, the program calls `sscanf(...)` to check whether our input matches the format `%d %d %s`.
+At the address `00007ff7`675d2d10`, we once again see `rdx` being assigned an address through:
 
-```asm
-sscanf(...)
-```
-
-to check whether our input matches the format:
-
-```text
-%d %d %s
-```
-
-At the address:
-
-```text
-00007ff7`675d2d10
-```
-
-we once again see `rdx` being assigned an address through:
-
-```asm
-lea rdx, [bomb!string]
-```
+`lea rdx, [bomb!string]`
 
 Inspecting the string at this address, we find:
 
-```text
-DrEvil
-```
+`DrEvil`
 
 Immediately afterward, `rcx` is assigned another address.
 When we inspect the value pointed to by `rcx`, we can see that it contains the **string — the third argument in our input**.
@@ -130,34 +85,18 @@ When we inspect the value pointed to by `rcx`, we can see that it contains the *
 
 The program then performs a comparison to check whether:
 
-```text
-input_string == "DrEvil"
-```
+`input_string == "DrEvil"`
 
-If the input string is **not `DrEvil`**, the program jumps to:
-
-```text
-00007ff7`675d2d41
-```
-
-and we will never reach:
-
-```asm
-call secret_phase
-```
+If the input string is **not `DrEvil`**, the program jumps to `00007ff7`675d2d41` and we will never reach: `call secret_phase`
 
 ### → Conclusion
 
 To trigger `secret_phase`, the input for **phase 4** must have the following format:
 
-```text
-<number> <number> DrEvil
-```
+`<number> <number> DrEvil`
 
 In this case, the answer for phase 4 is:
 
-```text
-3 10 DrEvil
-```
+`3 10 DrEvil`
 
 → **`3 10 DrEvil` is the condition required for the program to enter `secret_phase`.**
