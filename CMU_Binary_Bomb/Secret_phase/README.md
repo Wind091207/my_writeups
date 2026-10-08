@@ -24,6 +24,9 @@ The problem is that **we have never been able to trigger `secret_phase`.**
 
 First, the program checks whether we have successfully defused all **6 phases**.
 If we have not completed all 6 phases yet, the program jumps out of `phase_defused` and continues with the other phases.
+
+![Picture 5](./images/secret_phase_pic5.jfif)
+
 Then, at the address:
 
 ```text
@@ -49,6 +52,9 @@ After checking `rcx` again, we discover that it has moved to the address contain
 ---
 
 ## 3. Discovering the special format of phase 4
+
+![Picture 6](./images/secret_phase_pic6.jfif)
+
 At the address:
 
 ```text
