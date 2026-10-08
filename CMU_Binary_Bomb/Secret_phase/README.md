@@ -25,14 +25,10 @@ If we have not completed all 6 phases yet, the program jumps out of `phase_defus
 
 ![Picture 5](./images/secret_phase_pic5.jfif)
 
-Then, at the address `00007ff7`675d2cd1`, we encounter the instruction:
-
-`lea rcx, [bomb!input_strings]`
+Then, at the address `00007ff7`675d2cd1`, we encounter the instruction: `lea rcx, [bomb!input_strings]`
 
 When we inspect the address pointed to by `rcx`, we can see that it contains the **answer string we entered for phase 1**.
-Next, the program performs an addition:
-
-`rcx += rax`
+Next, the program performs an addition: `rcx += rax`.
 
 After checking `rcx` again, we discover that it has moved to the address containing the **answer string for phase 4**.
 → This shows that the program is using the input from **phase 4** for a special check.
@@ -43,11 +39,8 @@ After checking `rcx` again, we discover that it has moved to the address contain
 
 ![Picture 6](./images/secret_phase_pic6.jfif)
 
-At the address `00007ff7`675d2cf2`, we encounter:
-
-`lea rdx, [bomb!string]`
-
-Inspecting the string at this address, we discover the following format:
+At the address `00007ff7`675d2cf2`, we encounter: `lea rdx, [bomb!string]`
+Inspecting the string at this address, we discover the following format: 
 
 `"%d %d %s"`
 
@@ -70,10 +63,7 @@ At the address `00007ff7`675d2d10`, we once again see `rdx` being assigned an ad
 
 `lea rdx, [bomb!string]`
 
-Inspecting the string at this address, we find:
-
-`DrEvil`
-
+Inspecting the string at this address, we find: `DrEvil`
 Immediately afterward, `rcx` is assigned another address.
 When we inspect the value pointed to by `rcx`, we can see that it contains the **string — the third argument in our input**.
 
@@ -83,9 +73,7 @@ When we inspect the value pointed to by `rcx`, we can see that it contains the *
 
 ![Picture 4](./images/secret_phase_pic4.jfif)
 
-The program then performs a comparison to check whether:
-
-`input_string == "DrEvil"`
+The program then performs a comparison to check whether: `input_string == "DrEvil"`
 
 If the input string is **not `DrEvil`**, the program jumps to `00007ff7`675d2d41` and we will never reach: `call secret_phase`
 
@@ -95,8 +83,6 @@ To trigger `secret_phase`, the input for **phase 4** must have the following for
 
 `<number> <number> DrEvil`
 
-In this case, the answer for phase 4 is:
-
-`3 10 DrEvil`
+In this case, the answer for phase 4 is: `3 10 DrEvil`
 
 → **`3 10 DrEvil` is the condition required for the program to enter `secret_phase`.**
