@@ -122,12 +122,11 @@ After the stack frame is set up, we can see that the same values are accessed th
 
 ![Picture 9](./images/secret_phase_pic9.png)
 
-![Picture 9a](./images/secret_phase_pic9a.png)
+![Picture 9a](./images/secret_phase_pic9a.jfif)
 
 First, the function checks whether `[rbp+0E0h]` is `NULL`. If it is, the function returns `-1`, ending the current recursive call. This suggests that if our input does not exist in the data structure, we will eventually fail to defuse the bomb.
 Next, we can see that `[rbp+0E8h]` stores our input value, which remains unchanged throughout the recursive calls.
 The program then compares our input with the value stored in the current node.
-
 Pay attention to the following conditions:
 
 - **If INPUT > node value:** `RCX` receives the pointer stored at `[RAX+10h]`, and `fun7` is called recursively.
@@ -143,7 +142,7 @@ Notice that the function also calculates its return value differently depending 
 
 Our goal is to find a value in this tree that causes `fun7` to return `5`.
 
-### Reconstructing the Binary Search Tree
+### C.1. Reconstructing the Binary Search Tree
 
 Starting from the initial address stored in `RCX`, we can reconstruct the entire BST by following the pointers to its left and right child nodes.
 Each node contains a value and two pointers:
@@ -159,3 +158,32 @@ By examining these addresses one by one, we can reconstruct the following tree:
 → Now that we have reconstructed the BST, the next step is to determine which path produces the required return value: **`EAX = 5`**.
 
 ![Picture 11](./images/secret_phase_pic11.png)
+
+### C.2. Finding the correct input
+To make `EAX = 5`, let's take another look at how the return value is calculated:
+
+- **Right branch:** `EAX = EAX * 2 + 1`
+- **Left branch:** `EAX = EAX * 2`
+
+Since we have already reconstructed the entire BST, finding the correct path should be pretty easy now, right? :>
+Starting from the root, we follow this path:
+
+**Right → Left → Right**
+
+When the target node is found, `fun7` returns `0`. As the recursive calls return, the result is calculated in reverse order:
+
+- Right: `0 * 2 + 1 = 1`
+- Left: `1 * 2 = 2`
+- Right: `2 * 2 + 1 = 5`
+
+→ **Finally, we have found the correct input: `2Fh = 47` in decimal!**
+
+## D. Final Result — Bomb Defused!
+
+After entering `47`, we successfully trigger the final condition and defuse the secret phase!
+
+![Bomb Defused](./images/secret_phase_final.png)
+
+**Congratulations! We've successfully defused the entire bomb, including the secret phase!**
+
+And that's the end of our Bomb Lab journey! :>
