@@ -182,7 +182,7 @@ When the target node is found, `fun7` returns `0`. As the recursive calls return
 
 After entering `47`, we successfully trigger the final condition and defuse the secret phase!
 
-![Bomb Defused](./images/secret_phase_final.png)
+![Bomb Defused](./images/secret_phase_final.jfif)
 
 **Congratulations! We've successfully defused the entire bomb, including the secret phase!**
 
