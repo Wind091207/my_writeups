@@ -102,8 +102,8 @@ After passing these checks, the program prepares two arguments for the `fun7` fu
 - `EDX = [rbp+24]`: Contains the integer value we entered.
 - `RCX = &n1`: Contains the address of `n1` (`00007ff7'675df1b0`), obtained through the `lea` instruction.
 
-When we inspect the memory at this address, we find the value `24h` (36 in decimal).
-At this point, we don't know exactly what `n1` represents. However, it might be the root node of a binary search tree.
+When we inspect the memory at this address, we find the value 24h (36 in decimal). 
+However, we still don't know exactly what n1 represents. It might be the first element of an array or part of some other data structure.
 Finally, the program calls `fun7`. Once the function returns, its result is stored in `EAX`.
 The program then checks whether `EAX == 5`.
 
@@ -111,3 +111,51 @@ The program then checks whether `EAX == 5`.
 - Otherwise, the bomb explodes!
 
 → Therefore, our next goal is to analyze `fun7` and figure out which input causes it to return `5`.
+
+## C. Analyze fun7 function
+
+![Picture 9](./images/secret_phase_pic9.jfif)
+
+When analyzing the `fun7` function, we can see that `EDX` contains our input value, while `RCX` holds the address of what might be an array or some other data structure.
+These values are initially stored on the stack at `[rsp+10h]` and `[rsp+8]`, respectively.
+After the stack frame is set up, we can see that the same values are accessed through `[rbp+0E8h]` and `[rbp+0E0h]`, respectively.
+
+![Picture 9](./images/secret_phase_pic9.png)
+
+![Picture 9a](./images/secret_phase_pic9a.png)
+
+First, the function checks whether `[rbp+0E0h]` is `NULL`. If it is, the function returns `-1`, ending the current recursive call. This suggests that if our input does not exist in the data structure, we will eventually fail to defuse the bomb.
+Next, we can see that `[rbp+0E8h]` stores our input value, which remains unchanged throughout the recursive calls.
+The program then compares our input with the value stored in the current node.
+
+Pay attention to the following conditions:
+
+- **If INPUT > node value:** `RCX` receives the pointer stored at `[RAX+10h]`, and `fun7` is called recursively.
+- **If INPUT < node value:** `RCX` receives the pointer stored at `[RAX+8h]`, and `fun7` is called recursively.
+- **If INPUT == node value:** The function returns `0`, ending the recursion.
+
+Notice that the function also calculates its return value differently depending on which branch is taken:
+
+- Left branch: `EAX = 2 * fun7(...)`
+- Right branch: `EAX = 2 * fun7(...) + 1`
+
+→ Based on these observations, we can conclude that the initial address stored in `RCX` points to the **root node of a Binary Search Tree (BST)**.
+
+Our goal is to find a value in this tree that causes `fun7` to return `5`.
+
+### Reconstructing the Binary Search Tree
+
+Starting from the initial address stored in `RCX`, we can reconstruct the entire BST by following the pointers to its left and right child nodes.
+Each node contains a value and two pointers:
+
+- `[node+8h]`: Pointer to the left child.
+- `[node+10h]`: Pointer to the right child.
+
+When both pointers are `NULL`, we have reached a **leaf node**, meaning there are no more child nodes to explore.
+By examining these addresses one by one, we can reconstruct the following tree:
+
+![Picture 10](./images/secret_phase_pic10.png)
+
+→ Now that we have reconstructed the BST, the next step is to determine which path produces the required return value: **`EAX = 5`**.
+
+![Picture 11](./images/secret_phase_pic11.png)
