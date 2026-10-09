@@ -12,6 +12,8 @@ Repository này ghi lại hành trình học tập của tôi về **Assembly x8
 
 Tại đây, tôi chia sẻ những **ghi chú kỹ thuật (Technical Notes)** và **bài phân tích thực hành (Lab Write-ups)** trong quá trình khám phá cách chương trình hoạt động ở cấp độ thấp, cách luồng điều khiển được tổ chức, cách các lỗ hổng xuất hiện và cách hiểu hành vi của chương trình thông qua phân tích.
 
+Và có vài chỗ tôi còn để tiếng mẹ đẻ của tôi nên các bạn thông cảm, tôi sẽ dịch nó sang tiếng anh trong tương lai gần kkk.
+
 ### 🎯 Các lĩnh vực tôi quan tâm
 
 - 🖥️ **x86-64 Assembly** — Tìm hiểu các câu lệnh cấp thấp, thanh ghi, bộ nhớ và quá trình thực thi chương trình.
@@ -44,7 +46,7 @@ Tôi không chỉ muốn ghi lại những đáp án cuối cùng.
 
 Một trong những người truyền cảm hứng lớn nhất cho tôi là **Xeno Kovah**, đặc biệt là những bài giảng của ông về Assembly, kiến trúc máy tính và Reverse Engineering thông qua OpenSecurityTraining.
 
-Một bài học luôn đọng lại trong tôi là tầm quan trọng của việc nhìn nhận bức tranh tổng thể, thay vì sa đà vào từng câu lệnh Assembly riêng lẻ.
+Một bài học luôn đọng lại trong tôi là tầm quan trọng của việc nhìn nhận bức tranh tổng thể, thay vì đắm chìm vào từng câu lệnh Assembly riêng lẻ.
 
 **🔎 Reverse Engineering không chỉ đơn thuần là đọc mã Assembly.**
 
@@ -106,6 +108,8 @@ Tôi cố gắng ghi lại những quan sát và suy luận của chính mình, 
 Tôi cũng luôn sẵn sàng đón nhận những góp ý về cả nội dung kỹ thuật lẫn cách viết tiếng Anh.
 
 💬 **Mọi ý kiến đóng góp, chỉnh sửa và trao đổi kiến thức đều được chào đón!**
+
+Các bạn có thể ib qua facebook của tui để nêu ý kiến và đóng góp để tôi có thể hoàn thiện hơn nha <3.
 
 Repository này sẽ tiếp tục phát triển khi tôi tích lũy thêm kinh nghiệm và khám phá những lĩnh vực mới trong Reverse Engineering, Binary Exploitation và Malware Analysis.
 
