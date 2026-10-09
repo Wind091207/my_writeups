@@ -14,8 +14,6 @@ This is where `secret_phase` is called.
 The problem is that **we have never been able to trigger `secret_phase`.**
 → Therefore, instead of analyzing `secret_phase` directly, we need to go back and analyze **the condition that allows `phase_defused` to call `secret_phase`.**
 
----
-
 ## A.1. Analyzing the conditions inside `phase_defused`
 
 ![Picture 2](./images/secret_phase_pic2.jfif)
@@ -25,7 +23,7 @@ If we have not completed all 6 phases yet, the program jumps out of `phase_defus
 
 ![Picture 5](./images/secret_phase_pic5.jfif)
 
-Then, at the address `00007ff7`675d2cd1`, we encounter the instruction: `lea rcx, [bomb!input_strings]`
+Then, at the address `00007ff7'675d2cd1`, we encounter the instruction: `lea rcx, [bomb!input_strings]`
 
 When we inspect the address pointed to by `rcx`, we can see that it contains the **answer string we entered for phase 1**.
 Next, the program performs an addition: `rcx += rax`.
@@ -33,13 +31,11 @@ Next, the program performs an addition: `rcx += rax`.
 After checking `rcx` again, we discover that it has moved to the address containing the **answer string for phase 4**.
 → This shows that the program is using the input from **phase 4** for a special check.
 
----
-
 ## A.2. Discovering the special format of phase 4
 
 ![Picture 6](./images/secret_phase_pic6.jfif)
 
-At the address `00007ff7`675d2cf2`, we encounter: `lea rdx, [bomb!string]`
+At the address `00007ff7'675d2cf2`, we encounter: `lea rdx, [bomb!string]`
 Inspecting the string at this address, we discover the following format: 
 
 `"%d %d %s"`
@@ -51,8 +47,6 @@ However, the format `%d %d %s` requires:
 `integer + integer + string`
 
 → **This shows that the phase 4 input can contain an additional string after the two numbers.**
-
----
 
 ## A.3. Analyzing `sscanf`
 
@@ -67,15 +61,13 @@ Inspecting the string at this address, we find: `DrEvil`
 Immediately afterward, `rcx` is assigned another address.
 When we inspect the value pointed to by `rcx`, we can see that it contains the **string — the third argument in our input**.
 
----
-
 ## A.4. The condition for triggering `secret_phase`
 
 ![Picture 4](./images/secret_phase_pic4.jfif)
 
 The program then performs a comparison to check whether: `input_string == "DrEvil"`
 
-If the input string is **not `DrEvil`**, the program jumps to `00007ff7`675d2d41` and we will never reach: `call secret_phase`
+If the input string is **not `DrEvil`**, the program jumps to `00007ff7'675d2d41` and we will never reach: `call secret_phase`
 
 ### → Conclusion
 
@@ -86,3 +78,14 @@ To trigger `secret_phase`, the input for **phase 4** must have the following for
 In this case, the answer for phase 4 is: `3 10 DrEvil`
 
 → **`3 10 DrEvil` is the condition required for the program to enter `secret_phase`.**
+
+---
+
+## B. Inside the function secret_phase!!!!
+skipping the stack initialization, we move to the instructions after `call bomb!ILT+1000(__CheckForDebuggerJustMyCode)`.
+
+![Picture 7](./images/secret_phase_pic7.jfif)
+
+First, the program calls `read_line` to read the seventh line of input as a string. The function returns the address of this string in `RAX`, which is then stored at `[rbp+8]`.
+Next, the program sets `RCX = [rbp+8]` to pass the string's address as an argument to `atoi` (ASCII to Integer).
+Finally, `atoi` converts the numeric string into an integer, returns the result in `EAX`, and stores it at `[rbp+24]`.
