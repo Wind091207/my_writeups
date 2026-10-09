@@ -157,7 +157,7 @@ By examining these addresses one by one, we can reconstruct the following tree:
 
 → Now that we have reconstructed the BST, the next step is to determine which path produces the required return value: **`EAX = 5`**.
 
-![Picture 11](./images/secret_phase_pic11.png)
+
 
 ### C.2. Finding the correct input
 To make `EAX = 5`, let's take another look at how the return value is calculated:
@@ -177,6 +177,8 @@ When the target node is found, `fun7` returns `0`. As the recursive calls return
 - Right: `2 * 2 + 1 = 5`
 
 → **Finally, we have found the correct input: `2Fh = 47` in decimal!**
+
+![Picture 11](./images/secret_phase_pic11.png)
 
 ## D. Final Result — Bomb Defused!
 
