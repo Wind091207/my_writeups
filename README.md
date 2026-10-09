@@ -12,6 +12,8 @@ This repository documents my learning journey through **x86-64 Assembly**, **Win
 
 Here, I share my **Technical Notes** and **Lab Write-ups** as I explore how programs work at a low level, how their control flow is structured, how vulnerabilities arise, and how their behavior can be understood through analysis.
 
+🌱 Also, some parts of this repository are still written in my native language (Vietnamese), so I hope you don't mind! I'll do my best to translate them into English in the near future. Hehe :>
+
 ### 🎯 My Areas of Interest
 
 - 🖥️ **x86-64 Assembly** — Understanding low-level instructions, registers, memory, and program execution.
@@ -104,6 +106,8 @@ I try to document my own observations and reasoning while using available resour
 I also welcome feedback on both the technical content and the English writing.
 
 💬 **Feedback, corrections, and discussions are always welcome!**
+
+💌 Feel free to reach out to me on Facebook to share your thoughts, suggestions, or feedback. I'd really appreciate your input, as it would help me learn and improve! <3
 
 This repository will continue to grow as I gain more experience and explore new areas of Reverse Engineering, Binary Exploitation, and Malware Analysis.
 
