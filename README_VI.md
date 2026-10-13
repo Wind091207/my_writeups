@@ -129,10 +129,4 @@ Và quan trọng nhất...
 
 ---
 
-*💻 Từng câu lệnh một.*
-
-*🧩 Từng bí ẩn một.*
-
-*🌱 Tiến thêm một bước để trở thành phiên bản tốt hơn chính mình của ngày hôm qua.*
-
 ### 🔥 Tiếp tục học hỏi. Tiếp tục đặt câu hỏi. Tiếp tục khám phá bằng Reverse Engineering.
