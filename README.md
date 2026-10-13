@@ -1,9 +1,5 @@
 # 💻 x86-64 Labs
 
-### 🔍 My Writeups | Learning, Breaking, Understanding.
-
-> 💡 **Beyond the instructions, understand the logic.**
-
 ## 🚀 About This Repository
 
 👋 Welcome to my little corner of the Reverse Engineering world!
