@@ -74,21 +74,13 @@ My goal is to keep learning, questioning, experimenting, and gradually developin
 ## 🌱 My English Learning Journey
 
 To be honest, **my English isn't very fluent yet**, especially when it comes to technical writing.
-
 Writing an entire technical write-up in English is still quite challenging for me.
-
 For now, I use **AI tools 🤖** to help me translate my explanations, improve my grammar, and express my ideas more clearly in English.
-
 However, I'm not just trying to produce English write-ups. I'm also trying to learn from the writing process itself.
-
 Every new technical term, every unfamiliar expression, and every corrected sentence is another opportunity for me to improve.
-
 **💭 I believe that one day, I'll be able to write my own technical write-ups entirely in English, using my own words, without relying on AI assistance.**
-
 Until that day comes, I'll keep practicing, making mistakes, learning from them, and moving forward.
-
 After all, learning English and learning Reverse Engineering have something in common:
-
 **Progress comes from curiosity, patience, and consistent practice.**
 
 > 🌟 **Maybe not today, maybe not tomorrow, but someday I'll get there.**
@@ -98,15 +90,10 @@ After all, learning English and learning Reverse Engineering have something in c
 ## 🚧 A Work in Progress
 
 I'm still learning, so some of my notes and write-ups may contain mistakes, incomplete explanations, or assumptions that need further investigation.
-
 That's part of the learning process! 🌱
-
 I try to document my own observations and reasoning while using available resources, including AI, to improve how I communicate them.
-
 I also welcome feedback on both the technical content and the English writing.
-
 💬 **Feedback, corrections, and discussions are always welcome!**
-
 💌 Feel free to reach out to me on Facebook to share your thoughts, suggestions, or feedback. I'd really appreciate your input, as it would help me learn and improve! <3
 
 This repository will continue to grow as I gain more experience and explore new areas of Reverse Engineering, Binary Exploitation, and Malware Analysis.
@@ -116,21 +103,11 @@ This repository will continue to grow as I gain more experience and explore new 
 ## ❤️ A Little Reminder to Myself
 
 **Stay curious.**
-
 **Don't be afraid to make mistakes.**
-
 **Never stop asking why.**
-
 And most importantly...
-
 **Never forget why you started.** 🚀
 
 ---
-
-*💻 One instruction at a time.*
-
-*🧩 One mystery at a time.*
-
-*🌱 One step closer to becoming better than yesterday.*
 
 ### 🔥 Keep learning. Keep questioning. Keep reversing.
