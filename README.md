@@ -1,4 +1,4 @@
-# 💻 x86-64 Reverse Engineering Labs
+# 💻 x86-64 Labs
 
 ### 🔍 My Writeups | Learning, Breaking, Understanding.
 
