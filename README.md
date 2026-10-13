@@ -67,7 +67,7 @@ My goal is to keep learning, questioning, experimenting, and gradually developin
 
 ---
 
-## 🌱 My English Learning Journey
+## English
 
 To be honest, **my English isn't very fluent yet**, especially when it comes to technical writing.
 Writing an entire technical write-up in English is still quite challenging for me.
