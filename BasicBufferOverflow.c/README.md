@@ -129,28 +129,86 @@ Back in `main()`:
 
 Stepping into `lame2()`, the `call` instruction pushes the return address onto the stack:
 
-`15FE00 - 8 = 15FDF8` and `15FDF8 = RET`
+`15FE00 - 8 = 15FDF8` → `[15FDF8] = RET`
 
 ![Picture 13](./images/BBO_pic13.jfif)
 
-Đầu hàm lame2() rcx và rdx lần lượt được lưu vào `15FDF8 + 8` và `15FDF8 + 10` tương đương input1 và input2.
-`rsp = [15FDF8 - 88h] = 15FD70`
+At the beginning of `lame2()`, `RCX` and `RDX` are saved at `[15FDF8 + 8h]` and `[15FDF8 + 10h]`, corresponding to `INPUT1` and `INPUT2`, respectively.
+
+After executing `sub rsp, 88h`:
+
+`RSP = 15FDF8 - 88h = 15FD70`
 
 ![Picture 14](./images/BBO_pic14.jfif)
 
-Dựa vào ảnh ta có thể thấy được array2[5] = [15FD70 + 28h + 20h] = [15FDB8‬] = INPUT2 
-Như vậy, ta suy ra được:
+From the Assembly instructions, we can determine the address of `array2[5]`:
+
+`array2[5] = [15FD70 + 28h + 20h] = [15FDB8] = INPUT2`
+
+Therefore, the elements of `array2` are stored at:
+
 - `[15FDB0] = INPUT2`
 - `[15FDA8] = INPUT2`
 - `[15FDA0] = INPUT2`
 - `[15FD98] = INPUT2`
 - `[15FD90] = INPUT2`
-=> Địa chỉ bắt đầu mảng array2 = [15FD90].
+
+**Conclusion:** The starting address of `array2` is `15FD90`.
 
 ![Picture 15](./images/BBO_pic15.jfif)
 
-Tới đây ta có thể được rax được lưu = INPUT1 và shl rax, 3.
-Test INPUT1 = 3 => rax = 18h = 24 byte
-Địa chỉ khởi đầu của 2 mảng array1 và array2 lần lượt được lưu vào `[15FD70 + 50h] = [15FDC0‬]` và `[15FD70 + 20h] = [15FD90]`
+Here, `RAX` is assigned `INPUT1`, followed by `shl rax, 3`, which shifts `RAX` left by 3 bits (equivalent to multiplying by 8).
 
-Tại đây bạn thấy rằng lệnh memcpy sẽ copy các phần tử của mảng array2 sang array1, lúc này bạn để ý địa chỉ chứa RET và địa chỉ khởi đầu của mảng 1 cách nhau khoảng  
+For example:
+
+- `INPUT1 = 3` → `RAX = 18h` = 24 bytes.
+- `INPUT1 = 7` → `RAX = 38h` = 56 bytes.
+- `INPUT1 = 8` → `RAX = 40h` = 64 bytes.
+
+Therefore, we can determine that:
+
+`Number of bytes copied = INPUT1 × 8`
+
+The starting addresses of `array1` and `array2` are:
+
+- `array1 = [15FD70 + 50h] = [15FDC0]` (Destination)
+- `array2 = [15FD70 + 20h] = [15FD90]` (Source)
+
+The `memcpy` function copies data from `array2` into `array1`.
+
+Notice the distance between the beginning of `array1` and the saved return address:
+
+`15FDF8 - 15FDC0 = 38h` (56 bytes)
+
+With `INPUT1 = 7`, `memcpy` copies `38h` bytes, ending at address `15FDF7`, just before the saved return address.
+
+Now, let's try `INPUT1 = 8`. The copy size increases to `40h` bytes, extending into the memory location containing the saved return address.
+
+After executing `memcpy`, we can observe that the saved return address has been overwritten with `INPUT2`:
+
+<p align="center">
+  <img src="./images/BBO_pic16.jfif" width="48%" />
+  <img src="./images/BBO_pic17.jfif" width="48%" />
+</p>
+
+When the `ret` instruction executes, the CPU attempts to jump to the overwritten return address. If `INPUT2 = 0x4`, the program throws an **Access Violation** because `0x4` is not a valid executable address.
+
+![Picture 18](./images/BBO_pic18.jfif)
+
+This suggests that we can use `INPUT2` to redirect execution to a valid instruction address.
+
+Since our goal is to execute `AwesomeSauce()`, we need to find the address of the instruction that calls this function.
+
+![Picture 19](./images/BBO_pic19.jfif)
+
+From the disassembly, we can identify the address of the `call AwesomeSauce()` instruction:
+
+`0000000140001202`
+
+Therefore, we can use this address as `INPUT2` to redirect execution to the desired instruction.
+
+**Final Input:**
+
+`8 0000000140001202`
+
+**Conclusion:** Instead of forcing `lame()` or `lame2()` to return `0`, we exploit a stack buffer overflow to overwrite the saved return address and redirect execution to `AwesomeSauce()`, bypassing the original condition in `main()`.
