@@ -1,8 +1,9 @@
 # Challenge Description
 
-![Picture 1](./images/BBO_pic1.jfif)
-
-![Picture 2](./images/BBO_pic2.jfif)
+<p align="center">
+  <img src="./images/BBO_pic1.jfif" width="48%" />
+  <img src="./images/BBO_pic2.jfif" width="48%" />
+</p>
 
 **Objective:** Exploit a buffer overflow vulnerability to execute `AwesomeSauce()`.
 
@@ -32,7 +33,7 @@ Both inputs are initially strings and are converted into 64-bit integers using `
 
 We will analyze the Assembly instructions and reconstruct the stack layout using Visual Studio Debugger.
 
-### B.1. lame()
+### B.1. lame(__int64 value) -> INPUT2
 
 #### 1. Stack initialization
 
@@ -117,7 +118,7 @@ The saved return address is located at `[15FDF8]`, outside the copied range.
 
 **Conclusion:** `lame()` copies exactly 64 bytes into a 64-byte destination buffer. Therefore, this `memcpy` operation does not overflow `array1`, regardless of the supplied input values.
 
-### B.2. lame2()
+### B.2. lame2(__int64 size, __int64 value) -> INPUT 1 and INPUT 2
 
 ![Picture 12](./images/BBO_pic12.jfif)
 
