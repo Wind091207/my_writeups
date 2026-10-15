@@ -53,8 +53,8 @@ The instruction `sub rsp, 38h` allocates stack space:
 #### 2. Input storage
 
 <p align="center">
-  <img src="./images/BBO_pic7.jfif" width="48%" />
-  <img src="./images/BBO_pic8.jfif" width="48%" />
+  <img src="./images/BBO_pic7.png" width="48%" />
+  <img src="./images/BBO_pic8.png" width="48%" />
 </p>
 
 After `_strtoi64` processes both inputs:
@@ -85,14 +85,20 @@ Inside `lame()`:
 - `RCX` contains `value` and is saved at `[15FE00]`.
 - `sub rsp, 0A8h` → `RSP = 15FD50`.
 
-The program initializes `array2[0]` through `array2[3]` with `value`.
+By examining the Assembly instructions, we can determine that `array2[3]` is stored at:
 
-| Element | Stack address |
-|---|---|
-| `array2[0]` | `15FD70` |
-| `array2[1]` | `15FD78` |
-| `array2[2]` | `15FD80` |
-| `array2[3]` | `15FD88` |
+`array2[3] = [rsp + 18h + 20h] = [15FD88]`
+
+Since each `__int64` element occupies **8 bytes**, we can work backward to determine the addresses of the remaining elements:
+
+- `array2[3] = [15FD88]`
+- `array2[2] = [15FD80]`
+- `array2[1] = [15FD78]`
+- `array2[0] = [15FD70]`
+
+All four elements are initialized with `value`.
+
+**Therefore, the starting address of `array2` is `15FD70`.**
 
 #### 4. Analyzing memcpy()
 
@@ -120,7 +126,7 @@ The saved return address is located at `[15FDF8]`, outside the copied range.
 
 ### B.2. lame2(__int64 size, __int64 value) -> INPUT 1 and INPUT 2
 
-![Picture 12](./images/BBO_pic12.jfif)
+![Picture 12](./images/BBO_pic12.png)
 
 Back in `main()`:
 
@@ -156,7 +162,7 @@ Therefore, the elements of `array2` are stored at:
 
 **Conclusion:** The starting address of `array2` is `15FD90`.
 
-![Picture 15](./images/BBO_pic15.jfif)
+![Picture 15](./images/BBO_pic15.png)
 
 Here, `RAX` is assigned `INPUT1`, followed by `shl rax, 3`, which shifts `RAX` left by 3 bits (equivalent to multiplying by 8).
 
@@ -188,8 +194,8 @@ Now, let's try `INPUT1 = 8`. The copy size increases to `40h` bytes, extending i
 After executing `memcpy`, we can observe that the saved return address has been overwritten with `INPUT2`:
 
 <p align="center">
-  <img src="./images/BBO_pic16.jfif" width="48%" />
-  <img src="./images/BBO_pic17.jfif" width="48%" />
+  <img src="./images/BBO_pic16.png" width="48%" />
+  <img src="./images/BBO_pic17.png" width="48%" />
 </p>
 
 When the `ret` instruction executes, the CPU attempts to jump to the overwritten return address. If `INPUT2 = 0x4`, the program throws an **Access Violation** because `0x4` is not a valid executable address.
@@ -200,7 +206,8 @@ This suggests that we can use `INPUT2` to redirect execution to a valid instruct
 
 Since our goal is to execute `AwesomeSauce()`, we need to find the address of the instruction that calls this function.
 
-![Picture 19](./images/BBO_pic19.jfif)
+![Picture 19](./images/BBO_pic19.png)
+![Picture 20](./images/BBO_pic20.png)
 
 From the disassembly, we can identify the address of the `call AwesomeSauce()` instruction:
 
