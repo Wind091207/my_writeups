@@ -211,7 +211,7 @@ Since our goal is to execute `AwesomeSauce()`, we need to find the address of th
 
 From the disassembly, we can identify the address of the `call AwesomeSauce()` instruction:
 
-`0000000140001202`
+`0000000140001202` -> call `0000000140001160` !!!!
 
 Therefore, we can use this address as `INPUT2` to redirect execution to the desired instruction.
 
